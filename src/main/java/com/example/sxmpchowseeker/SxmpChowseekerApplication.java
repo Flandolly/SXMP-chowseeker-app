@@ -9,5 +9,4 @@ public class SxmpChowseekerApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SxmpChowseekerApplication.class, args);
 	}
-
 }
