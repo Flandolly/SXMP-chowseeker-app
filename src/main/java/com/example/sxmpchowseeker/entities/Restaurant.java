@@ -3,16 +3,12 @@ package com.example.sxmpchowseeker.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import com.opencsv.bean.CsvBindByPosition;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.UUID;
-
-import javax.persistence.*;
 
 
 @Entity

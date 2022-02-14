@@ -1,21 +1,23 @@
 package com.example.sxmpchowseeker.controller;
 
+import com.example.sxmpchowseeker.dao.RestaurantDAO;
+import com.example.sxmpchowseeker.entities.Restaurant;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-
-import com.example.sxmpchowseeker.dao.RestaurantDAO;
-import com.example.sxmpchowseeker.entities.Restaurant;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("restaurants")
 @RestController
 
 public class RestaurantController {
 
-    @Autowired
-    private RestaurantDAO restaurantDAO;
+    private final RestaurantDAO restaurantDAO;
+
+    public RestaurantController(RestaurantDAO restaurantDAO) {
+        this.restaurantDAO = restaurantDAO;
+    }
 
     @GetMapping
     public List<Restaurant> restaurants() {
