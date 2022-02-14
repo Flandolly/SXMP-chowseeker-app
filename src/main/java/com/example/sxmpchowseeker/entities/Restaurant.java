@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import com.opencsv.bean.CsvBindByPosition;
+
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,9 +31,14 @@ public class Restaurant implements Serializable {
     private UUID id;
 
     private String name;
+    private String locationDescription;
     private String address;
+    private String photo;
     private String foodTypes;
-    private float locationX;
-    private float locationY;
+    private float latitude;
+    private float longitude;
+    private String schedule;
     private String locationExact;
+    private int likes;
+    private int dislikes;
 }
