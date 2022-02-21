@@ -3,20 +3,18 @@ package com.example.sxmpchowseeker.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import com.opencsv.bean.CsvBindByPosition;
-
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.io.Serializable;
-import java.util.UUID;
-
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 
 @Entity
-@Table(name="restaurants")
+@Table(name = "restaurants")
 @Data
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
@@ -41,4 +39,7 @@ public class Restaurant implements Serializable {
     private String locationExact;
     private int likes;
     private int dislikes;
+
+    @OneToMany(mappedBy = "restaurant", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Comment> comments = new HashSet<>();
 }
