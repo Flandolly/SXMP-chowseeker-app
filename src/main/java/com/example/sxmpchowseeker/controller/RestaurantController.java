@@ -26,22 +26,17 @@ public class RestaurantController {
 
     @GetMapping(value = "/{id}")
     public Restaurant getRestaurantById(@PathVariable("id") UUID id) {
-
         Optional<Restaurant> restaurant = restaurantDAO.findById(id);
-
-        return restaurant.isPresent() ? restaurant.get() : null;
+        return restaurant.orElse(null);
     }
 
-    @PutMapping
+    @PutMapping(value = "/{id}")
     public void updateRestaurant(@RequestBody Restaurant newRestaurant) {
-
-        Restaurant restaurant = restaurantDAO.getById(newRestaurant.getId());
-
+        restaurantDAO.save(restaurantDAO.getById(newRestaurant.getId()));
     }
 
     @PostMapping
     public Restaurant addRestaurant(@RequestBody Restaurant restaurant) {
-
         return restaurantDAO.save(restaurant);
     }
 

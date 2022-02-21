@@ -12,7 +12,7 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name="restaurants")
+@Table(name = "restaurants")
 @Data
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @NoArgsConstructor
