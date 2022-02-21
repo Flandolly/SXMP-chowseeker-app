@@ -48,7 +48,8 @@ public class SxmpChowseekerApplication implements CommandLineRunner {
                             line[7],
                             line[8],
                             0,
-                            0);
+                            0,
+                            null);
                     restaurantDAO.save(newRestaurant);
                 });
                 System.out.println("Database seeded.");

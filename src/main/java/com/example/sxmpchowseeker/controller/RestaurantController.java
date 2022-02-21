@@ -4,6 +4,7 @@ import com.example.sxmpchowseeker.dao.RestaurantDAO;
 import com.example.sxmpchowseeker.entities.Restaurant;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,9 +26,18 @@ public class RestaurantController {
     }
 
     @GetMapping(value = "/{id}")
-    public Restaurant getRestaurantById(@PathVariable("id") UUID id) {
+    public Object getRestaurantById(@PathVariable("id") UUID id) {
         Optional<Restaurant> restaurant = restaurantDAO.findById(id);
-        return restaurant.orElse(null);
+
+        if (restaurant.isPresent()) {
+            Restaurant foundRestaurant = restaurant.get();
+            foundRestaurant.getComments();
+            return foundRestaurant;
+        }
+
+        HashMap<String, Object> res = new HashMap<>();
+        res.put("message", "Error finding restaurant");
+        return res;
     }
 
     @PutMapping(value = "/{id}")
