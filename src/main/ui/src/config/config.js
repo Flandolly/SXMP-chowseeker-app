@@ -1,0 +1,1 @@
+export const APIURL = window.location.hostname === "localhost" ? "http://localhost:5000/api" : "http://chowseeker-app.us-east-1.elasticbeanstalk.com/api"
