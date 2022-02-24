@@ -1,20 +1,19 @@
-import React, {useEffect} from "react";
-import {APIURL} from "../config/config";
+import React from "react";
 import {Button, FormGroup, Input} from "reactstrap";
 
 function Home() {
 
-    const axios = require("axios");
-
-    useEffect(() => {
-        axios.get(`${APIURL}/restaurants`)
-            .then(function (response) {
-                console.log(response);
-            })
-            .catch(function (err) {
-                console.log(err);
-            })
-    });
+    // const axios = require("axios");
+    //
+    // useEffect(() => {
+    //     axios.get(`${APIURL}/restaurants`)
+    //         .then(function (response) {
+    //             console.log(response);
+    //         })
+    //         .catch(function (err) {
+    //             console.log(err);
+    //         })
+    // });
 
     return (
         <div className={"container-fluid d-flex"}>

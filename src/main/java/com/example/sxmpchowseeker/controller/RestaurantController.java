@@ -25,6 +25,16 @@ public class RestaurantController {
         return restaurantDAO.findAll();
     }
 
+    @GetMapping(value = "/search-address")
+    public List<Restaurant> getRestaurantsByAddress(@RequestParam String address) {
+        return restaurantDAO.findAllByAddressIgnoreCaseContaining(address);
+    }
+
+    @GetMapping(value = "/search-food")
+    public List<Restaurant> getRestaurantsByName(@RequestParam String foodTypes) {
+        return restaurantDAO.findAllByFoodTypesIgnoreCaseContaining(foodTypes);
+    }
+
     @GetMapping(value = "/{id}")
     public Object getRestaurantById(@PathVariable("id") UUID id) {
         Optional<Restaurant> restaurant = restaurantDAO.findById(id);
@@ -51,7 +61,7 @@ public class RestaurantController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public void deletePerson(@PathVariable("id") UUID id) {
+    public void deleteRestaurant(@PathVariable("id") UUID id) {
         restaurantDAO.deleteById(id);
     }
 }
