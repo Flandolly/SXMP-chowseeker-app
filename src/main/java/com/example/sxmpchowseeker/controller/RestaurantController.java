@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@CrossOrigin(origins = "*")
-@RequestMapping("restaurants")
+@RequestMapping("api/restaurants")
 @RestController
 
 public class RestaurantController {

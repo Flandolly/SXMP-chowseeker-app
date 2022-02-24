@@ -8,6 +8,11 @@ import com.opencsv.exceptions.CsvException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,6 +31,20 @@ public class SxmpChowseekerApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         SpringApplication.run(SxmpChowseekerApplication.class, args);
+    }
+
+    @Configuration
+    public static class CorsSetup extends WebMvcConfigurationSupport {
+
+        @Override
+        protected void addCorsMappings(CorsRegistry registry) {
+            registry.addMapping("/**")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "HEAD", "OPTIONS")
+                    .allowedOrigins("*")
+                    .allowedHeaders("*")
+                    .maxAge(-1)
+                    .allowCredentials(false);
+        }
     }
 
     @Override
