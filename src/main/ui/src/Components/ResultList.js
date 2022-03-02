@@ -3,6 +3,7 @@ import {APIURL} from "../config/config";
 import axios from "axios";
 import Restaurant from "./Restaurant";
 import {Button, ButtonGroup, Col, Row} from "reactstrap";
+import SearchForm from "./SearchForm";
 
 function ResultList(props) {
 
@@ -114,7 +115,8 @@ function ResultList(props) {
     function ResultHeader() {
         return (
             <div>
-                <h1 className={"display-6 mx-3"}>Showing search results for
+                <SearchForm />
+                <h1 className={"display-6 mt-3 mx-3"}>Showing search results for
                     "{props.history.location.search.substring(props.history.location.search.indexOf('=') + 1)}"</h1>
                 <p className={"lead mx-3"}>{resultList.length ? resultList.length + " results found." : "No results found."}</p>
                 <div className={"lead text-end"}>

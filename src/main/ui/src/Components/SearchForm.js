@@ -13,7 +13,7 @@ function SearchForm() {
     }
 
     return (
-        <div>
+        <div className={"mt-4"}>
             <InputGroup className={"w-75 mx-auto"}>
                 <Input onChange={(event) => handleChange(event)}
                        onKeyPress={(event) => {
