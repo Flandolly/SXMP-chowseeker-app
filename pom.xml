@@ -14,7 +14,7 @@
     <name>sxmp-chowseeker</name>
     <description>SXMP project for Spring Boot</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
         <node.version>v16.11.1</node.version>
         <npm.version>8.5.1</npm.version>
@@ -133,7 +133,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.0</version>
                 <configuration>
-                    <release>11</release>
+                    <source>17</source>
+                    <target>11</target>
                 </configuration>
             </plugin>
         </plugins>
