@@ -8,7 +8,6 @@ function SearchForm() {
     const hist = useHistory();
 
     function handleChange(input) {
-        console.log(input)
         return setInput(input.target.value);
     }
 

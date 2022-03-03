@@ -50,7 +50,7 @@ function ResultList(props) {
     }, [props.history.location.search])
 
     useEffect(() => {
-        console.log(sort);
+        // console.log(sort);
         const sortResults = [...resultList].sort((a, b) => {
             if (sort.sortDirection === "ascending") {
                 if (sort.sortParam === "name") {
