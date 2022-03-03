@@ -70,7 +70,7 @@ function ResultList(props) {
             return [];
         })
         setResultList(sortResults);
-    }, [sort, resultList])
+    }, [sort])
 
     useEffect(() => {
     }, [resultList])
