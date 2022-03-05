@@ -1,4 +1,4 @@
-import React, {Fragment} from "react";
+import React, {Fragment, useEffect} from "react";
 import {Route} from "react-router-dom";
 import Home from "./Components/Home";
 import ResultList from "./Components/ResultList";
@@ -6,6 +6,11 @@ import NavigationBar from "./Components/NavigationBar";
 import ShowRestaurant from "./Components/ShowRestaurant";
 
 function App() {
+
+    useEffect(() => {
+        localStorage.setItem("ratedRestaurant", "false");
+    })
+
     return (
         <main className="main">
             <Route path={"/"} exact component={Home}/>

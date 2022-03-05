@@ -10,10 +10,8 @@ function ShowRestaurant(props) {
 
     useEffect(() => {
         const idParam = props.match.url.split("/")
-        // console.log(idParam)
         axios.get(`${APIURL}/restaurants/${idParam[2]}`)
             .then(function (response) {
-                console.log(response);
                 setRestaurant(response.data);
             })
     }, [props.match.url])
@@ -22,28 +20,35 @@ function ShowRestaurant(props) {
     }, [restaurant])
 
     useEffect(() => {
-        setRateDisliked(localStorage.getItem("dislikedRestaurant"));
-        setRateLiked(localStorage.getItem("likedRestaurant"));
+        setRateDisliked(localStorage.getItem(`dislikedRestaurant-${restaurant.id}`));
+        setRateLiked(localStorage.getItem(`likedRestaurant-${restaurant.id}`));
     }, [])
 
     useEffect(() => {
-        localStorage.setItem("likedRestaurant", rateLiked);
-        localStorage.setItem("dislikedRestaurant", rateDisliked);
+        localStorage.setItem(`likedRestaurant-${restaurant.id}`, rateLiked);
+        localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, rateDisliked);
     }, [rateLiked, rateDisliked])
 
-    function handleRatingButton(rating) {
-        localStorage.setItem("ratedRestaurant", "true");
+    function handleRatingButton(rating, target) {
+        localStorage.setItem(`ratedRestaurant`, "true");
+        target.style.display = "none";
         if (rating === "like") {
-            localStorage.setItem("likedRestaurant", "true");
-            localStorage.setItem("dislikedRestaurant", "false");
+            localStorage.setItem(`likedRestaurant-${restaurant.id}`, "true");
+            localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, "false");
+
             setRateLiked("true");
             setRateDisliked("false");
+
+            document.getElementById("dislike-button-unrated").style.display = "inline";
         }
         else {
-            localStorage.setItem("dislikedRestaurant", "true");
-            localStorage.setItem("likedRestaurant", "false");
+            localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, "true");
+            localStorage.setItem(`likedRestaurant-${restaurant.id}`, "false");
+
             setRateLiked("false");
             setRateDisliked("true");
+
+            document.getElementById("like-button-unrated").style.display = "inline";
         }
     }
 
@@ -53,11 +58,11 @@ function ShowRestaurant(props) {
                 <div>
                     <div className={"title"}>
                         <h1 className={"display-4 d-inline"}>{restaurant.name}</h1>
-                        <img className={"mx-2"} alt={"Like button (unrated)"} onClick={() => handleRatingButton("like")} style={{display: localStorage.getItem("likedRestaurant") === "false" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/000000/thumb-up--v1.png"/>
-                        <img className={"mx-2"} alt={"Like button (rated)"} style={{display: localStorage.getItem("likedRestaurant") === "true" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/26e07f/thumb-up--v1.png"/>
+                        <img id={"like-button-unrated"} className={"mx-2"} alt={"Like button (unrated)"} style={{display: localStorage.getItem(`likedRestaurant-${restaurant.id}`) === "true" ? "none" : "inline"}} onClick={(e) => handleRatingButton("like", e.target)} src="https://img.icons8.com/ios-glyphs/30/000000/thumb-up--v1.png"/>
+                        <img id={"like-button-rated"} className={"mx-2"} alt={"Like button (rated)"} style={{display: localStorage.getItem(`likedRestaurant-${restaurant.id}`) === "true" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/26e07f/thumb-up--v1.png"/>
                         {restaurant.likes}
-                        <img className={"mx-2"} alt={"Dislike button (unrated)"} onClick={() => handleRatingButton("dislike")} style={{display: localStorage.getItem("dislikedRestaurant") === "false" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/000000/thumbs-down.png"/>
-                        <img className={"mx-2"} alt={"Dislike button (rated)"} style={{display: localStorage.getItem("dislikedRestaurant") === "true" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/fa314a/thumbs-down.png"/>
+                        <img id={"dislike-button-unrated"} className={"mx-2"} alt={"Dislike button (unrated)"} style={{display: localStorage.getItem(`dislikedRestaurant-${restaurant.id}`) === "true" ? "none" : "inline"}} onClick={(e) => handleRatingButton("dislike", e.target)} src="https://img.icons8.com/ios-glyphs/30/000000/thumbs-down.png"/>
+                        <img id={"dislike-button-rated"} className={"mx-2"} alt={"Dislike button (rated)"} style={{display: localStorage.getItem(`dislikedRestaurant-${restaurant.id}`) === "true" ? "inline" : "none"}} src="https://img.icons8.com/ios-glyphs/30/fa314a/thumbs-down.png"/>
                         {restaurant.dislikes}
                         {/*<span className={"mx-2"}> {rateLiked ? "Thanks for rating!" : null}</span>*/}
                     </div>
@@ -72,7 +77,7 @@ function ShowRestaurant(props) {
                     </div>
                     <p className={"lead"}>Map:</p>
                     <iframe title={"map"} width={600} height={450} loading={"lazy"}
-                            src={`https://www.google.com/maps/embed/v1/place?q=${restaurant.address.replaceAll(" ", "+")}&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}/>
+                            src={`https://www.google.com/maps/embed/v1/place?q=${restaurant.address.replaceAll(" ", "+")}+San+Francisco&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}/>
                 </div>
             </div>
         )
