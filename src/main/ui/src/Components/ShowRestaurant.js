@@ -2,12 +2,22 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {APIURL} from "../config/config";
 import NavigationBar from "./NavigationBar";
+import {Modal} from "reactstrap";
+import RestaurantEdit from "./RestaurantEdit";
 
 function ShowRestaurant(props) {
+
+    /*
+    TODO:
+    Edit Modal
+    Comments?
+    Readme
+     */
 
     const [restaurant, setRestaurant] = useState({});
     const [rateLiked, setRateLiked] = useState("");
     const [rateDisliked, setRateDisliked] = useState("");
+    const [showEditModal, setShowEditModal] = useState(true);
     const idParam = props.match.url.split("/")
 
     useEffect(() => {
@@ -86,11 +96,18 @@ function ShowRestaurant(props) {
         }
     }
 
+    function toggleModal() {
+        setShowEditModal(!showEditModal);
+    }
+
     if (restaurant.address !== undefined) {
         return (
             <div>
-                <NavigationBar/>
+                <NavigationBar setShowEditModal={setShowEditModal}/>
                 <div>
+                    <Modal isOpen={showEditModal} toggle={toggleModal} centered={true}>
+                        <RestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} setShowModal={setShowEditModal}/>
+                    </Modal>
                     <div className={"title"}>
                         <h1 className={"display-4 d-inline"}>{restaurant.name}</h1>
                         <img id={"like-button-unrated"} className={"mx-2"} alt={"Like button (unrated)"}
@@ -113,7 +130,7 @@ function ShowRestaurant(props) {
                     <div className={"upper-main"}>
 
                         <h1 className={"display-6"}>{restaurant.address}</h1>
-                        <img alt={"restaurant image"} src={restaurant.photo ? restaurant.photo : <p className={"lead"}>No photo available.</p>}/>
+                        <img alt={"Restaurant"} src={restaurant.photo}/>
                     </div>
                     <div className={"lower-main"}>
                         <p><b>Serving:</b> {restaurant.foodTypes.replaceAll(":", ",")}</p>

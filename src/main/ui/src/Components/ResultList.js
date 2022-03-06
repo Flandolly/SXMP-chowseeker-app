@@ -18,7 +18,7 @@ function ResultList(props) {
     const [showAddDesc, setShowAddDesc] = useState(false);
     const [showNameAsc, setShowNameAsc] = useState(false);
     const [showNameDesc, setShowNameDesc] = useState(false);
-    const [showModal, setShowModal] = useState(true);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     useEffect(() => {
 
@@ -30,7 +30,6 @@ function ResultList(props) {
             }
         })
             .then(function (response) {
-                console.log(response);
                 setResultList(response.data);
                 if (response.data.length === 0) {
                     axios.get(`${APIURL}/restaurants/search-address`, {
@@ -39,7 +38,6 @@ function ResultList(props) {
                         }
                     })
                         .then(function (response) {
-                            console.log(response);
                             setResultList(response.data);
                         })
                         .catch(function (error) {
@@ -118,7 +116,7 @@ function ResultList(props) {
     function ResultHeader() {
         return (
             <div>
-                <NavigationBar/>
+                <NavigationBar setShowAddModal={setShowAddModal}/>
                 <SearchForm/>
                 <h1 className={"display-6 mt-3 mx-3"}>Showing search results for
                     "{props.history.location.search.substring(props.history.location.search.indexOf('=') + 1)}"</h1>
@@ -141,15 +139,15 @@ function ResultList(props) {
     }
 
     function toggleModal() {
-        setShowModal(!showModal);
+        setShowAddModal(!showAddModal);
     }
 
 
     if (resultList.length !== 0) {
         return (
             <div>
-                <Modal isOpen={showModal} toggle={toggleModal} centered={true}>
-                    <RestaurantCreate setShowModal={setShowModal}/>
+                <Modal isOpen={showAddModal} toggle={toggleModal} centered={true}>
+                    <RestaurantCreate setShowModal={setShowAddModal}/>
                 </Modal>
                 <ResultHeader/>
                 <Row>
