@@ -17,7 +17,7 @@ function ShowRestaurant(props) {
     const [restaurant, setRestaurant] = useState({});
     const [rateLiked, setRateLiked] = useState("");
     const [rateDisliked, setRateDisliked] = useState("");
-    const [showEditModal, setShowEditModal] = useState(true);
+    const [showEditModal, setShowEditModal] = useState(false);
     const idParam = props.match.url.split("/")
 
     useEffect(() => {
@@ -25,7 +25,7 @@ function ShowRestaurant(props) {
             .then(function (response) {
                 setRestaurant(response.data);
             })
-    }, [props.match.url, idParam])
+    }, [])
 
     useEffect(() => {
     }, [restaurant])
@@ -130,7 +130,7 @@ function ShowRestaurant(props) {
                     <div className={"upper-main"}>
 
                         <h1 className={"display-6"}>{restaurant.address}</h1>
-                        <img alt={"Restaurant"} src={restaurant.photo}/>
+                        {restaurant.photo ? <img alt={"Restaurant"} src={restaurant.photo}/> : null}
                     </div>
                     <div className={"lower-main"}>
                         <p><b>Serving:</b> {restaurant.foodTypes.replaceAll(":", ",")}</p>

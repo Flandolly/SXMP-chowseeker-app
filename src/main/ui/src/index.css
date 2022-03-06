@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+img {
+    max-height: 300px;
+}
+
 .loading {
     border: 5px solid white;
     border-top: 5px solid black;

@@ -2,14 +2,16 @@ import React, {useEffect, useState} from "react";
 import {APIURL} from "../config/config";
 import axios from "axios";
 import Restaurant from "./Restaurant";
-import {Button, ButtonGroup, Col, Modal, Row} from "reactstrap";
+import {Button, ButtonGroup, Col, Modal, Pagination, PaginationItem, PaginationLink, Row} from "reactstrap";
 import SearchForm from "./SearchForm";
 import NavigationBar from "./NavigationBar";
 import RestaurantCreate from "./RestaurantCreate";
 
 function ResultList(props) {
 
+    const maxPageSize = 20;
     const [resultList, setResultList] = useState([]);
+    const [page, setPage] = useState(1);
     const [sort, setSort] = useState({
         sortDirection: "",
         sortParam: ""
@@ -74,6 +76,7 @@ function ResultList(props) {
     }, [sort])
 
     useEffect(() => {
+        setPage(1);
     }, [resultList])
 
     function sortResults(event) {
@@ -142,6 +145,36 @@ function ResultList(props) {
         setShowAddModal(!showAddModal);
     }
 
+    function ResultPagination() {
+        return (
+            <Pagination>
+                <PaginationItem>
+                    <PaginationLink previous onClick={() => setPage(page-1)} href={"#"}/>
+                </PaginationItem>
+                {Array(Math.ceil(resultList.length / maxPageSize)).fill(null).map((result, idx) => {
+                    if ([idx, idx-1, idx+1, idx+2, idx+3].includes(page)) {
+                        if (page === idx+1) {
+                            return <PaginationItem active key={idx} onClick={() => setPage(idx+1)}>
+                                <PaginationLink href={"#"}>
+                                    {idx+1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        } else {
+                            return <PaginationItem key={idx} onClick={() => setPage(idx+1)}>
+                                <PaginationLink href={"#"}>
+                                    {idx+1}
+                                </PaginationLink>
+                            </PaginationItem>
+                        }
+                    }
+                })}
+                <PaginationItem>
+                    <PaginationLink next onClick={() => setPage(page+1)} href={"#"}/>
+                </PaginationItem>
+            </Pagination>
+        )
+    }
+
 
     if (resultList.length !== 0) {
         return (
@@ -150,13 +183,15 @@ function ResultList(props) {
                     <RestaurantCreate setShowModal={setShowAddModal}/>
                 </Modal>
                 <ResultHeader/>
+                <ResultPagination/>
                 <Row>
-                    {resultList.map((result, idx) => {
+                    {resultList.slice((page-1) * maxPageSize, maxPageSize * page).map((result, idx) => {
                         return <Col sm={4} className={"search-result my-3"} key={idx}>
                             <Restaurant restaurant={result}/>
                         </Col>
                     })}
                 </Row>
+                <ResultPagination/>
             </div>
         )
     } else {

@@ -1,7 +1,7 @@
 import React from "react";
 import {Container, Navbar, NavbarBrand} from "reactstrap";
 
-function NavigationBar({setAddShowModal, setShowEditModal}) {
+function NavigationBar({setShowAddModal, setShowEditModal}) {
 
     return (
         <div>
@@ -9,7 +9,7 @@ function NavigationBar({setAddShowModal, setShowEditModal}) {
                 <Container>
                     <NavbarBrand href={"/"}><h4>Home</h4></NavbarBrand>
                     {window.location.pathname.includes("search") ?
-                        <h4 style={{cursor: "pointer"}} onClick={() => setAddShowModal(true)}
+                        <h4 style={{cursor: "pointer"}} onClick={() => setShowAddModal(true)}
                             className={"text-white"}>New</h4> : null}
                     {window.location.pathname.includes("restaurant") ?
                         <h4 style={{cursor: "pointer"}} onClick={() => setShowEditModal(true)}

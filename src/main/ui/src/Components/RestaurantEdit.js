@@ -39,7 +39,7 @@ function RestaurantEdit({setRestaurant, restaurant, setShowModal}) {
                     </FormGroup>
                     <FormGroup>
                         <Label for={"photo"}>Photo URL</Label>
-                        <Input type={"url"} name={"photo"} id={"photo"} defaultValue={""}/>
+                        <Input type={"url"} name={"photo"} id={"photo"} defaultValue={restaurant.photo}/>
                     </FormGroup>
                     <FormGroup>
                         <Label for={"food-types"}>Food(s) Sold (comma-separated)</Label>
@@ -48,7 +48,7 @@ function RestaurantEdit({setRestaurant, restaurant, setShowModal}) {
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>
-                    <Button type={"submit"} color="primary">Edit</Button>
+                    <Button type={"submit"} color="primary">Save</Button>
                     <Button onClick={() => setShowModal(false)} color="secondary">Cancel</Button>
                 </ModalFooter>
             </Form>
