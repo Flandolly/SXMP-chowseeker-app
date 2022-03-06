@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {APIURL} from "../config/config";
+import NavigationBar from "./NavigationBar";
 
 function ShowRestaurant(props) {
 
@@ -14,7 +15,7 @@ function ShowRestaurant(props) {
             .then(function (response) {
                 setRestaurant(response.data);
             })
-    }, [props.match.url])
+    }, [props.match.url, idParam])
 
     useEffect(() => {
     }, [restaurant])
@@ -22,12 +23,12 @@ function ShowRestaurant(props) {
     useEffect(() => {
         setRateDisliked(localStorage.getItem(`dislikedRestaurant-${restaurant.id}`));
         setRateLiked(localStorage.getItem(`likedRestaurant-${restaurant.id}`));
-    }, [])
+    }, [restaurant.id])
 
     useEffect(() => {
         localStorage.setItem(`likedRestaurant-${restaurant.id}`, rateLiked);
         localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, rateDisliked);
-    }, [rateLiked, rateDisliked])
+    }, [rateLiked, rateDisliked, restaurant.id])
 
     function handleRatingButton(rating, target) {
         localStorage.setItem(`ratedRestaurant`, "true");
@@ -88,6 +89,7 @@ function ShowRestaurant(props) {
     if (restaurant.address !== undefined) {
         return (
             <div>
+                <NavigationBar/>
                 <div>
                     <div className={"title"}>
                         <h1 className={"display-4 d-inline"}>{restaurant.name}</h1>
@@ -115,7 +117,7 @@ function ShowRestaurant(props) {
                     </div>
                     <div className={"lower-main"}>
                         <p><b>Serving:</b> {restaurant.foodTypes.replaceAll(":", ",")}</p>
-                        <p><b>Nearby Street Location(s):</b> {restaurant.locationDescription}</p>
+                        {/*<p><b>Nearby Street Location(s):</b> {restaurant.locationDescription}</p>*/}
                     </div>
                     <p className={"lead"}>Map:</p>
                     <iframe title={"map"} width={600} height={450} loading={"lazy"}

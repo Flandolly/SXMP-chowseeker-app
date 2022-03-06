@@ -7,7 +7,8 @@ function Restaurant({restaurant}) {
         <div className={"restaurant-result"}>
             <Col>
                 <Card className={"text-center"}>
-                    <CardImg top src={`https://loremflickr.com/320/240?random=${Math.floor(Math.random() * 100)}`} alt={"Restaurant Image"}/>
+                    <CardImg top src={`https://loremflickr.com/320/240?random=${Math.floor(Math.random() * 100)}`}
+                             alt={"Restaurant Image"}/>
                     <CardBody>
                         <CardTitle><b>{restaurant.name}</b></CardTitle>
                         <CardSubtitle><i>{restaurant.address}</i></CardSubtitle>
@@ -17,7 +18,8 @@ function Restaurant({restaurant}) {
                         </Link>
                     </CardBody>
                     <CardFooter className={"text-start"}>
-                        &#128077; <span className={"text-success"}>{restaurant.likes}</span> &#128078; <span className={"text-danger"}>{restaurant.dislikes}</span>
+                        &#128077; <span className={"text-success"}>{restaurant.likes}</span> &#128078; <span
+                        className={"text-danger"}>{restaurant.dislikes}</span>
                     </CardFooter>
                 </Card>
             </Col>

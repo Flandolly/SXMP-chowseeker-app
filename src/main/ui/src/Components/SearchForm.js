@@ -20,7 +20,8 @@ function SearchForm() {
                                hist.push(`/search?query=${input}`);
                            }
                        }}
-                       type={"search"} value={input} name={"search"} placeholder={"Search... (Enter a food or address)"}/>
+                       type={"search"} value={input} name={"search"}
+                       placeholder={"Search... (Enter a food or address)"}/>
                 <InputGroupAddon addonType={"prepend"}>
                     <Link className={"text-center"} to={{
                         pathname: "/search",
