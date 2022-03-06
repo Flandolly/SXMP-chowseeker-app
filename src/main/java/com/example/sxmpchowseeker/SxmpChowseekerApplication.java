@@ -50,7 +50,7 @@ public class SxmpChowseekerApplication implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (restaurantDAO.count() == 0) {
-            try (CSVReader reader = new CSVReaderBuilder(new FileReader("C:\\Users\\fland\\IdeaProjects\\SXMP-chowseeker-app\\src\\main\\resources\\db\\seed\\seed_data.csv"))
+            try (CSVReader reader = new CSVReaderBuilder(new FileReader("./src/main/resources/db/seed/seed_data.csv"))
                     .withSkipLines(1)
                     .build()) {
                 List<String[]> result = reader.readAll();
