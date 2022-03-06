@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import {Button, Input, InputGroup, InputGroupAddon} from "reactstrap";
 import {Link, useHistory} from "react-router-dom";
 
-function SearchForm() {
+function SearchBar() {
 
     const [input, setInput] = useState("");
     const hist = useHistory();
@@ -36,4 +36,4 @@ function SearchForm() {
     )
 }
 
-export default SearchForm;
+export default SearchBar;

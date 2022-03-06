@@ -3,11 +3,11 @@ import {APIURL} from "../config/config";
 import axios from "axios";
 import Restaurant from "./Restaurant";
 import {Button, ButtonGroup, Col, Modal, Pagination, PaginationItem, PaginationLink, Row} from "reactstrap";
-import SearchForm from "./SearchForm";
+import SearchBar from "./SearchBar";
 import NavigationBar from "./NavigationBar";
-import RestaurantCreate from "./RestaurantCreate";
+import RestaurantCreate from "./CRUDs/RestaurantCreate";
 
-function ResultList(props) {
+function RestaurantList(props) {
 
     const maxPageSize = 20;
     const [resultList, setResultList] = useState([]);
@@ -120,7 +120,7 @@ function ResultList(props) {
         return (
             <div>
                 <NavigationBar setShowAddModal={setShowAddModal}/>
-                <SearchForm/>
+                <SearchBar/>
                 <h1 className={"display-6 mt-3 mx-3"}>Showing search results for
                     "{props.history.location.search.substring(props.history.location.search.indexOf('=') + 1)}"</h1>
                 <p className={"lead mx-3"}>{resultList.length ? resultList.length + " results found." : "No results found."}</p>
@@ -207,4 +207,4 @@ function ResultList(props) {
 
 }
 
-export default ResultList;
+export default RestaurantList;

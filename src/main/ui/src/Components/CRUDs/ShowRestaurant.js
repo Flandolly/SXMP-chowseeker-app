@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {APIURL} from "../config/config";
-import NavigationBar from "./NavigationBar";
+import {APIURL} from "../../config/config";
+import NavigationBar from "../NavigationBar";
 import {Modal} from "reactstrap";
 import RestaurantEdit from "./RestaurantEdit";
 

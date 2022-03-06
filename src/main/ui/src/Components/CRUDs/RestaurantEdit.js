@@ -1,6 +1,6 @@
 import React from "react";
 import {Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
-import {APIURL} from "../config/config";
+import {APIURL} from "../../config/config";
 import axios from "axios";
 
 function RestaurantEdit({setRestaurant, restaurant, setShowModal}) {
