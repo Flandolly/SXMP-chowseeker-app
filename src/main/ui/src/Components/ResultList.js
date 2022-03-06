@@ -2,8 +2,10 @@ import React, {useEffect, useState} from "react";
 import {APIURL} from "../config/config";
 import axios from "axios";
 import Restaurant from "./Restaurant";
-import {Button, ButtonGroup, Col, Row} from "reactstrap";
+import {Button, ButtonGroup, Col, Modal, Row} from "reactstrap";
 import SearchForm from "./SearchForm";
+import NavigationBar from "./NavigationBar";
+import RestaurantCreate from "./RestaurantCreate";
 
 function ResultList(props) {
 
@@ -16,6 +18,7 @@ function ResultList(props) {
     const [showAddDesc, setShowAddDesc] = useState(false);
     const [showNameAsc, setShowNameAsc] = useState(false);
     const [showNameDesc, setShowNameDesc] = useState(false);
+    const [showAddModal, setShowAddModal] = useState(false);
 
     useEffect(() => {
 
@@ -27,7 +30,6 @@ function ResultList(props) {
             }
         })
             .then(function (response) {
-                console.log(response);
                 setResultList(response.data);
                 if (response.data.length === 0) {
                     axios.get(`${APIURL}/restaurants/search-address`, {
@@ -36,7 +38,6 @@ function ResultList(props) {
                         }
                     })
                         .then(function (response) {
-                            console.log(response);
                             setResultList(response.data);
                         })
                         .catch(function (error) {
@@ -50,7 +51,7 @@ function ResultList(props) {
     }, [props.history.location.search])
 
     useEffect(() => {
-        console.log(sort);
+        // console.log(sort);
         const sortResults = [...resultList].sort((a, b) => {
             if (sort.sortDirection === "ascending") {
                 if (sort.sortParam === "name") {
@@ -115,7 +116,8 @@ function ResultList(props) {
     function ResultHeader() {
         return (
             <div>
-                <SearchForm />
+                <NavigationBar setShowAddModal={setShowAddModal}/>
+                <SearchForm/>
                 <h1 className={"display-6 mt-3 mx-3"}>Showing search results for
                     "{props.history.location.search.substring(props.history.location.search.indexOf('=') + 1)}"</h1>
                 <p className={"lead mx-3"}>{resultList.length ? resultList.length + " results found." : "No results found."}</p>
@@ -136,10 +138,17 @@ function ResultList(props) {
         )
     }
 
+    function toggleModal() {
+        setShowAddModal(!showAddModal);
+    }
+
 
     if (resultList.length !== 0) {
         return (
             <div>
+                <Modal isOpen={showAddModal} toggle={toggleModal} centered={true}>
+                    <RestaurantCreate setShowModal={setShowAddModal}/>
+                </Modal>
                 <ResultHeader/>
                 <Row>
                     {resultList.map((result, idx) => {

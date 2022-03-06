@@ -51,8 +51,12 @@ public class RestaurantController {
     }
 
     @PutMapping(value = "/{id}")
-    public void updateRestaurant(@RequestBody Restaurant newRestaurant) {
-        restaurantDAO.save(restaurantDAO.getById(newRestaurant.getId()));
+    public Restaurant updateRestaurant(@RequestBody Restaurant newRestaurant) {
+        Restaurant restaurant = restaurantDAO.getById(newRestaurant.getId());
+
+        restaurant = newRestaurant;
+
+        return restaurantDAO.save(restaurant);
     }
 
     @PostMapping
