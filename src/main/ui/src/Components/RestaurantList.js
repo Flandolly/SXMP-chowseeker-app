@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {APIURL} from "../config/config";
+import {APIURL} from "../config/constants";
 import axios from "axios";
 import Restaurant from "./Restaurant";
 import {Button, ButtonGroup, Col, Modal, Pagination, PaginationItem, PaginationLink, Row} from "reactstrap";
@@ -148,14 +148,14 @@ function RestaurantList(props) {
     function ResultPagination() {
         return (
             <Pagination>
-                <PaginationItem>
+                <PaginationItem disabled={page === 1}>
                     <PaginationLink previous onClick={() => setPage(page-1)} href={"#"}/>
                 </PaginationItem>
                 {Array(Math.ceil(resultList.length / maxPageSize)).fill(null).map((result, idx) => {
                     if ([idx, idx-1, idx+1, idx+2, idx+3].includes(page)) {
                         if (page === idx+1) {
                             return <PaginationItem active key={idx} onClick={() => setPage(idx+1)}>
-                                <PaginationLink href={"#"}>
+                                <PaginationLink>
                                     {idx+1}
                                 </PaginationLink>
                             </PaginationItem>
@@ -168,7 +168,7 @@ function RestaurantList(props) {
                         }
                     }
                 })}
-                <PaginationItem>
+                <PaginationItem disabled={page === Math.ceil(resultList.length / maxPageSize)}>
                     <PaginationLink next onClick={() => setPage(page+1)} href={"#"}/>
                 </PaginationItem>
             </Pagination>

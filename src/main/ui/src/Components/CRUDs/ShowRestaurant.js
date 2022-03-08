@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import axios from "axios";
-import {APIURL} from "../../config/config";
+import {APIURL} from "../../config/constants";
 import NavigationBar from "../NavigationBar";
 import {Modal} from "reactstrap";
 import RestaurantEdit from "./RestaurantEdit";
@@ -9,15 +9,16 @@ function ShowRestaurant(props) {
 
     /*
     TODO:
-    Edit Modal
     Comments?
     Readme
      */
 
     const [restaurant, setRestaurant] = useState({});
+    const [rated, setRated] = useState("");
     const [rateLiked, setRateLiked] = useState("");
     const [rateDisliked, setRateDisliked] = useState("");
     const [showEditModal, setShowEditModal] = useState(false);
+    const forceUpdate = React.useReducer(() => ({}))[1]
     const idParam = props.match.url.split("/")
 
     useEffect(() => {
@@ -33,41 +34,42 @@ function ShowRestaurant(props) {
     useEffect(() => {
         setRateDisliked(localStorage.getItem(`dislikedRestaurant-${restaurant.id}`));
         setRateLiked(localStorage.getItem(`likedRestaurant-${restaurant.id}`));
+        setRated(localStorage.getItem(`ratedRestaurant-${restaurant.id}`));
     }, [restaurant.id])
 
     useEffect(() => {
-        localStorage.setItem(`likedRestaurant-${restaurant.id}`, rateLiked);
-        localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, rateDisliked);
-    }, [rateLiked, rateDisliked, restaurant.id])
+        if (restaurant.id !== undefined) {
+            localStorage.setItem(`likedRestaurant-${restaurant.id}`, rateLiked);
+            localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, rateDisliked);
+            localStorage.setItem(`ratedRestaurant-${restaurant.id}`, rated);
+        }
+    }, [rateLiked, rateDisliked, rated, restaurant.id])
 
     function handleRatingButton(rating, target) {
-        localStorage.setItem(`ratedRestaurant`, "true");
         target.style.display = "none";
         if (rating === "like") {
+
             localStorage.setItem(`likedRestaurant-${restaurant.id}`, "true");
             localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, "false");
+
+            // console.log(localStorage.getItem(`ratedRestaurant`));
 
             setRateLiked("true");
             setRateDisliked("false");
 
             document.getElementById("dislike-button-unrated").style.display = "inline";
 
-            axios.put(`${APIURL}/restaurants/${idParam[2]}`, {...restaurant, likes: restaurant.likes + 1})
+            axios.put(`${APIURL}/restaurants/${idParam[2]}`, {
+                ...restaurant,
+                likes: restaurant.likes + 1,
+                dislikes: restaurant.dislikes > 0 && localStorage.getItem(`ratedRestaurant-${restaurant.id}`) === "true" ? restaurant.dislikes - 1 : restaurant.dislikes
+            })
                 .then(function (response) {
                     // console.log(response.data);
                     setRestaurant(response.data);
 
-                    if (restaurant.dislikes !== 0) {
-                        return axios.put(`${APIURL}/restaurants/${idParam[2]}`, {
-                            ...response.data,
-                            dislikes: restaurant.dislikes - 1
-                        })
-                    }
+                    localStorage.setItem(`ratedRestaurant-${restaurant.id}`, "true");
                 })
-                .then(function (response2) {
-                    // console.log(response2.data);
-                    setRestaurant(response2.data);
-                });
         } else {
             localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, "true");
             localStorage.setItem(`likedRestaurant-${restaurant.id}`, "false");
@@ -77,21 +79,16 @@ function ShowRestaurant(props) {
 
             document.getElementById("like-button-unrated").style.display = "inline";
 
-            axios.put(`${APIURL}/restaurants/${idParam[2]}`, {...restaurant, dislikes: restaurant.dislikes + 1})
+            axios.put(`${APIURL}/restaurants/${idParam[2]}`, {
+                ...restaurant,
+                dislikes: restaurant.dislikes + 1,
+                likes: restaurant.likes > 0 && localStorage.getItem(`ratedRestaurant-${restaurant.id}`) === "true" ? restaurant.likes - 1 : restaurant.likes
+            })
                 .then(function (response) {
                     // console.log(response.data);
                     setRestaurant(response.data);
 
-                    if (restaurant.likes !== 0) {
-                        return axios.put(`${APIURL}/restaurants/${idParam[2]}`, {
-                            ...response.data,
-                            likes: restaurant.likes - 1
-                        })
-                    }
-                })
-                .then(function (response2) {
-                    // console.log(response2.data);
-                    setRestaurant(response2.data);
+                    localStorage.setItem(`ratedRestaurant-${restaurant.id}`, "true");
                 });
         }
     }
@@ -101,12 +98,14 @@ function ShowRestaurant(props) {
     }
 
     if (restaurant.address !== undefined) {
+
         return (
             <div>
                 <NavigationBar setShowEditModal={setShowEditModal}/>
                 <div>
                     <Modal isOpen={showEditModal} toggle={toggleModal} centered={true}>
-                        <RestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant} setShowModal={setShowEditModal}/>
+                        <RestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant}
+                                        setShowModal={setShowEditModal}/>
                     </Modal>
                     <div className={"title"}>
                         <h1 className={"display-4 d-inline"}>{restaurant.name}</h1>
@@ -146,7 +145,6 @@ function ShowRestaurant(props) {
         return (
             <div className={"container-fluid"}>
                 <div id={"loading"} className={"loading m-auto d-flex justify-content-center align-items-center"}>
-
                 </div>
             </div>
         )

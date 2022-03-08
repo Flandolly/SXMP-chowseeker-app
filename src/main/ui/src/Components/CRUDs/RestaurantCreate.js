@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import axios from "axios";
-import {APIURL} from "../../config/config";
+import {APIURL} from "../../config/constants";
 import {useHistory} from "react-router-dom";
 
 
