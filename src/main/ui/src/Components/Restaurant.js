@@ -1,24 +1,14 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Card, CardImg, CardText, CardBody, CardTitle, CardSubtitle, Button, Col, CardFooter} from 'reactstrap';
 import {Link} from "react-router-dom";
-import axios from "axios";
 
 function Restaurant({restaurant}) {
-
-    const [photo, setPhoto] = useState("");
-
-    useEffect(() => {
-        axios.get("https://api.thecatapi.com/v1/images/search", {headers: {"x-api-key" : process.env.REACT_APP_CATAPI_API_KEY}})
-            .then(function (response) {
-                setPhoto(response.data[0].url);
-            });
-    }, [restaurant])
 
     return (
         <div className={"restaurant-result"}>
             <Col>
                 <Card className={"text-center"}>
-                    <CardImg id={"restaurant-card"} top src={restaurant.photo ? restaurant.photo : photo}
+                    <CardImg id={"restaurant-card"} top src={restaurant.photo ? restaurant.photo : null}
                              alt={"Restaurant Image"}/>
                     <CardBody style={{backgroundColor: "#ffa9a3"}}>
                         <CardTitle><b>{restaurant.name}</b></CardTitle>

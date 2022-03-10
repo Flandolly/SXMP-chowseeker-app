@@ -145,7 +145,7 @@ function ShowRestaurant(props) {
                     <div className={"upper-main"}>
 
                         <h1 className={"display-6"}>{restaurant.address}</h1>
-                        {restaurant.photo ? <img alt={"Restaurant"} src={restaurant.photo}/> : null}
+                        {restaurant.photo ? <img className={"restaurant-photo"} alt={"Restaurant"} src={restaurant.photo}/> : null}
                     </div>
                     <div className={"lower-main"}>
                         <p><b>Serving:</b> {restaurant.foodTypes.replaceAll(":", ",")}</p>

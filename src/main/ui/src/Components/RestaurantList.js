@@ -77,6 +77,22 @@ function RestaurantList(props) {
 
     useEffect(() => {
         setPage(1);
+
+        if (resultList) {
+            resultList.forEach((restaurant) => {
+                if (!restaurant.photo) {
+                    axios.get("https://api.thecatapi.com/v1/images/search", {headers: {"x-api-key" : process.env.REACT_APP_CATAPI_API_KEY}})
+                        .then(function (response) {
+                            axios.put(`${APIURL}/restaurants/${restaurant.id}`, {...restaurant, photo: response.data[0].url})
+                                .then(function (response) {
+                                    // console.log(response.data);
+                                })
+                        });
+                }
+            })
+        }
+
+        console.log(resultList);
     }, [resultList])
 
     function sortResults(event) {
@@ -147,7 +163,7 @@ function RestaurantList(props) {
 
     function ResultPagination() {
         return (
-            <Pagination className={"result-header"}>
+            <Pagination className={"result-header d-flex justify-content-center"}>
                 <PaginationItem disabled={page === 1}>
                     <PaginationLink previous onClick={() => setPage(page-1)} href={"#"}/>
                 </PaginationItem>

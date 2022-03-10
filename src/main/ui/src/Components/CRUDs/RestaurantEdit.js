@@ -18,7 +18,7 @@ function RestaurantEdit({setRestaurant, restaurant, setShowModal}) {
             foodTypes: data.get("food")
         })
             .then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
                 setRestaurant(response.data);
                 setShowModal(false);
             })
@@ -44,7 +44,7 @@ function RestaurantEdit({setRestaurant, restaurant, setShowModal}) {
                     <FormGroup>
                         <Label for={"food-types"}>Food(s) Sold (comma-separated)</Label>
                         <Input type={"text"} name={"food"} id={"food-types"}
-                               defaultValue={restaurant.foodTypes}/>
+                               defaultValue={restaurant.foodTypes.replaceAll(":", ",")}/>
                     </FormGroup>
                 </ModalBody>
                 <ModalFooter>

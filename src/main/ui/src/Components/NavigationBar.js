@@ -5,7 +5,7 @@ function NavigationBar({setShowAddModal, setShowEditModal, setShowDeleteModal}) 
 
     return (
         <div>
-            <Navbar className={"navbar-dark bg-danger"}>
+            <Navbar className={"navbar-dark bg-dark"}>
                 <Container>
                     <NavbarBrand href={"/"}><h4>Home</h4></NavbarBrand>
                     {window.location.pathname.includes("search") ?
