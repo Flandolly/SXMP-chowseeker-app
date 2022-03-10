@@ -1,14 +1,22 @@
 # Chowseeker App
 
+## Instructions
+
+To use this application, no external setup is required. Simply visit the live site [here](https://chowseeker.netlify.app/).
+
 ## Overview (Backend)
 
 Language(s) Used: Java 11 (Maven)\
 Technologies Used: Spring Boot Framework, H2, Project Lombok, Flyway, OpenCSV, PostgreSQL, Heroku Deployment
 
+---
+
 ### Models
 Restaurant (schema below)
 
 ![Restaurant schema structure](https://i.imgur.com/L3Lpsq2.png)
+
+---
 
 ### Architectural Design Choice
 
@@ -26,11 +34,14 @@ The React Frontend represents the View portion of MVC as it handles how to displ
 
 Each model has a respective controller (i.e. `RestaurantController`) which will serve as a way to communicate with the underlying model as well as communicate changes to the view. In this case, it stores all the CRUD functionality for a restaurant.
 
+---
+
 ### Object-Oriented Principle Usage
 
 This application incorporates several object-oriented principles. The `Restaurant` model/class utilizes encapsulation as all its attributes are declared as private variables to prevent their values from being directly accessed. Instead, each of the attributes have their own set of public setter and getter methods as a means of modifying the attribute.\
 The controllers also take advantage of inheritance as the controller class extends from a `JpaRepository` to have access to its built-in CRUD methods that can be reused through the app rather having to create one from scratch.
 
+---
 ### Sample API Payload + Response
 
 ``GET /api/restaurants/1fe8a3d1-a00e-42e7-9916-63b0689ee1d1``\
@@ -54,6 +65,8 @@ The controllers also take advantage of inheritance as the controller class exten
 "dislikes": 0
 }
 ```
+
+---
 
 ## Overview (Frontend)
 
