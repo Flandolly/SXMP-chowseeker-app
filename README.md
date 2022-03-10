@@ -3,7 +3,7 @@
 ## Overview (Backend)
 
 Language(s) Used: Java 11 (Maven)\
-Technologies Used: Spring Boot Framework, H2, Project Lombok, Flyway, OpenCSV, PostgreSQL
+Technologies Used: Spring Boot Framework, H2, Project Lombok, Flyway, OpenCSV, PostgreSQL, Heroku Deployment
 
 ### Models
 Restaurant (schema below)
@@ -58,7 +58,7 @@ The controllers also take advantage of inheritance as the controller class exten
 ## Overview (Frontend)
 
 Language(s) Used: JavaScript\
-Technologies Used: React, React Router, Bootstrap + Reactstrap
+Technologies Used: React, React Router, Bootstrap + Reactstrap, Netlify Deployment
 
 ### Views
 
