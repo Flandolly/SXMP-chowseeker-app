@@ -2,23 +2,19 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {APIURL} from "../../config/constants";
 import NavigationBar from "../NavigationBar";
-import {Modal} from "reactstrap";
+import {Button, Modal, ModalBody, ModalFooter, ModalHeader} from "reactstrap";
 import RestaurantEdit from "./RestaurantEdit";
+import {useHistory} from "react-router-dom";
 
 function ShowRestaurant(props) {
-
-    /*
-    TODO:
-    Comments?
-    Readme
-     */
 
     const [restaurant, setRestaurant] = useState({});
     const [rated, setRated] = useState("");
     const [rateLiked, setRateLiked] = useState("");
     const [rateDisliked, setRateDisliked] = useState("");
     const [showEditModal, setShowEditModal] = useState(false);
-    const forceUpdate = React.useReducer(() => ({}))[1]
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const hist = useHistory()
     const idParam = props.match.url.split("/")
 
     useEffect(() => {
@@ -52,8 +48,6 @@ function ShowRestaurant(props) {
             localStorage.setItem(`likedRestaurant-${restaurant.id}`, "true");
             localStorage.setItem(`dislikedRestaurant-${restaurant.id}`, "false");
 
-            // console.log(localStorage.getItem(`ratedRestaurant`));
-
             setRateLiked("true");
             setRateDisliked("false");
 
@@ -65,7 +59,6 @@ function ShowRestaurant(props) {
                 dislikes: restaurant.dislikes > 0 && localStorage.getItem(`ratedRestaurant-${restaurant.id}`) === "true" ? restaurant.dislikes - 1 : restaurant.dislikes
             })
                 .then(function (response) {
-                    // console.log(response.data);
                     setRestaurant(response.data);
 
                     localStorage.setItem(`ratedRestaurant-${restaurant.id}`, "true");
@@ -93,19 +86,42 @@ function ShowRestaurant(props) {
         }
     }
 
+    function handleDelete() {
+        axios.delete(`${APIURL}/restaurants/${restaurant.id}`)
+            .then(function (response) {
+                hist.goBack();
+            })
+    }
+
     function toggleModal() {
         setShowEditModal(!showEditModal);
+    }
+
+    function toggleDeleteModal() {
+        setShowDeleteModal(!showEditModal);
     }
 
     if (restaurant.address !== undefined) {
 
         return (
             <div>
-                <NavigationBar setShowEditModal={setShowEditModal}/>
+                <NavigationBar setShowEditModal={setShowEditModal} setShowDeleteModal={setShowDeleteModal}/>
                 <div>
                     <Modal isOpen={showEditModal} toggle={toggleModal} centered={true}>
                         <RestaurantEdit setRestaurant={setRestaurant} restaurant={restaurant}
                                         setShowModal={setShowEditModal}/>
+                    </Modal>
+                    <Modal isOpen={showDeleteModal} toggle={toggleDeleteModal} centered={true}>
+                        <ModalHeader>Confirm Restaurant Deletion</ModalHeader>
+                        <ModalBody>
+                            <p className={"lead"}>
+                                Are you sure you want to delete {restaurant.name}? This cannot be undone.
+                            </p>
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button onClick={() => handleDelete()} type={"submit"} color="danger">Delete</Button>
+                            <Button onClick={() => setShowDeleteModal(false)} color="secondary">Cancel</Button>
+                        </ModalFooter>
                     </Modal>
                     <div className={"title"}>
                         <h1 className={"display-4 d-inline"}>{restaurant.name}</h1>
@@ -136,7 +152,7 @@ function ShowRestaurant(props) {
                         {/*<p><b>Nearby Street Location(s):</b> {restaurant.locationDescription}</p>*/}
                     </div>
                     <p className={"lead"}>Map:</p>
-                    <iframe title={"map"} width={600} height={450} loading={"lazy"}
+                    <iframe title={"map"} width={400} height={325} loading={"lazy"}
                             src={`https://www.google.com/maps/embed/v1/place?q=${restaurant.address.replaceAll(" ", "+")}+San+Francisco&key=${process.env.REACT_APP_GOOGLE_MAPS_API_KEY}`}/>
                 </div>
             </div>

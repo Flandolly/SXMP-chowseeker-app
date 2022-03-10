@@ -9,7 +9,7 @@ import RestaurantCreate from "./CRUDs/RestaurantCreate";
 
 function RestaurantList(props) {
 
-    const maxPageSize = 20;
+    const maxPageSize = 21;
     const [resultList, setResultList] = useState([]);
     const [page, setPage] = useState(1);
     const [sort, setSort] = useState({
@@ -118,7 +118,7 @@ function RestaurantList(props) {
 
     function ResultHeader() {
         return (
-            <div>
+            <div className={"result-header"}>
                 <NavigationBar setShowAddModal={setShowAddModal}/>
                 <SearchBar/>
                 <h1 className={"display-6 mt-3 mx-3"}>Showing search results for
@@ -147,7 +147,7 @@ function RestaurantList(props) {
 
     function ResultPagination() {
         return (
-            <Pagination>
+            <Pagination className={"result-header"}>
                 <PaginationItem disabled={page === 1}>
                     <PaginationLink previous onClick={() => setPage(page-1)} href={"#"}/>
                 </PaginationItem>
@@ -178,7 +178,7 @@ function RestaurantList(props) {
 
     if (resultList.length !== 0) {
         return (
-            <div>
+            <div className={"restaurant-list"}>
                 <Modal isOpen={showAddModal} toggle={toggleModal} centered={true}>
                     <RestaurantCreate setShowModal={setShowAddModal}/>
                 </Modal>
